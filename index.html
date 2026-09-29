@@ -257,15 +257,34 @@
         const now = Date.now();
         const distance = drawTime - now;
 
+        const countdown =
+            document.querySelector(".countdown");
+
+        const daysBox =
+            document.getElementById("days").closest(".time-box");
+
+        const hoursBox =
+            document.getElementById("hours").closest(".time-box");
+
+        const minutesBox =
+            document.getElementById("minutes").closest(".time-box");
+
+        const secondsBox =
+            document.getElementById("seconds").closest(".time-box");
+
+
+        /* DRAW TIME */
+
         if (distance <= 0) {
 
-            document.getElementById("days").textContent = "00";
-            document.getElementById("hours").textContent = "00";
-            document.getElementById("minutes").textContent = "00";
-            document.getElementById("seconds").textContent = "00";
+            countdown.innerHTML =
+                '<div class="draw-now">IT\'S TIME TO DRAW!</div>';
+
+            document.querySelector(".draw-time").style.display = "none";
 
             return;
         }
+
 
         const days = Math.floor(
             distance / (1000 * 60 * 60 * 24)
@@ -286,6 +305,43 @@
             1000
         );
 
+
+        /* MORE THAN 24 HOURS */
+
+        if (days > 0) {
+
+            daysBox.style.display = "block";
+            hoursBox.style.display = "block";
+
+            countdown.style.gridTemplateColumns =
+                "repeat(4, 1fr)";
+        }
+
+
+        /* LESS THAN 24 HOURS */
+
+        else if (hours > 0) {
+
+            daysBox.style.display = "none";
+            hoursBox.style.display = "block";
+
+            countdown.style.gridTemplateColumns =
+                "repeat(3, 1fr)";
+        }
+
+
+        /* LESS THAN 1 HOUR */
+
+        else {
+
+            daysBox.style.display = "none";
+            hoursBox.style.display = "none";
+
+            countdown.style.gridTemplateColumns =
+                "repeat(2, 1fr)";
+        }
+
+
         document.getElementById("days").textContent =
             String(days).padStart(2, "0");
 
@@ -298,6 +354,7 @@
         document.getElementById("seconds").textContent =
             String(seconds).padStart(2, "0");
     }
+
 
     updateCountdown();
 
