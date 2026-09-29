@@ -14,56 +14,104 @@
         html,
         body {
             margin: 0;
-            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             background: #000;
-            color: #f6dfb2;
-            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        .container {
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            text-align: center;
+        /*
+         * Entire presentation always fits inside
+         * the visible browser window.
+         */
+        .screen {
+            width: 100vw;
+            height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+
             background: #000;
+            overflow: hidden;
+        }
+
+        /*
+         * Image takes all remaining available space
+         * above the countdown.
+         */
+        .hero-area {
+            flex: 1 1 auto;
+            min-height: 0;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+
+            overflow: hidden;
         }
 
         .hero {
             display: block;
+
             width: 100%;
-            height: auto;
+            height: 100%;
+
+            object-fit: contain;
+            object-position: center top;
         }
 
+        /*
+         * Countdown has a controlled height.
+         */
         .countdown-section {
+            flex: 0 0 auto;
+
             width: 100%;
-            padding: 0 3% 40px;
-            margin-top: -35px;
+
+            /* Pull countdown closer to the banner */
+            padding: 0 3vw 2vh;
+            margin-top: -7vh;
+
             background: #000;
+            text-align: center;
+
             position: relative;
         }
 
         .countdown {
             width: 100%;
+
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            align-items: start;
+
+            align-items: center;
         }
 
         .time-box {
-            width: 100%;
             text-align: center;
         }
 
         .number {
             display: block;
+
             font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(5rem, 10vw, 10rem);
-            font-weight: normal;
-            line-height: 0.95;
+
+            /*
+             * Scales based on BOTH screen width
+             * and screen height.
+             */
+            font-size: clamp(
+                4rem,
+                min(9vw, 13vh),
+                10rem
+            );
+
+            line-height: 0.9;
+
             color: #fff0c9;
 
             text-shadow:
@@ -74,50 +122,78 @@
 
         .label {
             display: block;
-            margin-top: 18px;
 
-            font-size: clamp(0.8rem, 1.25vw, 1.25rem);
+            margin-top: 1.2vh;
+
+            font-size: clamp(
+                0.65rem,
+                min(1.2vw, 1.8vh),
+                1.2rem
+            );
+
             font-weight: 500;
 
-            letter-spacing: 0.4em;
+            letter-spacing: 0.35em;
 
             color: #e4c58e;
         }
 
         .draw-time {
-            margin-top: 40px;
+            margin-top: 4vh;
 
             font-family: Georgia, "Times New Roman", serif;
 
-            font-size: clamp(1rem, 1.8vw, 1.7rem);
+            font-size: clamp(
+                0.8rem,
+                min(1.5vw, 2.2vh),
+                1.5rem
+            );
 
             letter-spacing: 0.18em;
 
             color: #e4c58e;
         }
 
-        @media (max-width: 700px) {
+        /*
+         * Phone layout
+         */
+        @media (max-width: 650px) {
+
+            html,
+            body {
+                overflow: auto;
+            }
+
+            .screen {
+                min-height: 100vh;
+                height: auto;
+            }
+
+            .hero-area {
+                flex: none;
+            }
+
+            .hero {
+                width: 100%;
+                height: auto;
+            }
 
             .countdown-section {
-                margin-top: -10px;
-                padding-left: 10px;
-                padding-right: 10px;
+                padding: 15px 8px 25px;
             }
 
             .number {
-                font-size: clamp(3.2rem, 16vw, 6rem);
+                font-size: 13vw;
             }
 
             .label {
-                font-size: 0.65rem;
-                letter-spacing: 0.12em;
-                margin-top: 10px;
+                font-size: 2.3vw;
+                letter-spacing: 0.1em;
             }
 
             .draw-time {
-                margin-top: 30px;
-                font-size: 0.9rem;
-                line-height: 1.6;
+                margin-top: 25px;
+                font-size: 3vw;
             }
         }
     </style>
@@ -125,7 +201,9 @@
 
 <body>
 
-    <div class="container">
+<div class="screen">
+
+    <div class="hero-area">
 
         <img
             src="party.jpeg"
@@ -133,98 +211,99 @@
             class="hero"
         >
 
-        <section class="countdown-section">
-
-            <div class="countdown">
-
-                <div class="time-box">
-                    <span class="number" id="days">00</span>
-                    <span class="label">DAYS</span>
-                </div>
-
-                <div class="time-box">
-                    <span class="number" id="hours">00</span>
-                    <span class="label">HOURS</span>
-                </div>
-
-                <div class="time-box">
-                    <span class="number" id="minutes">00</span>
-                    <span class="label">MINUTES</span>
-                </div>
-
-                <div class="time-box">
-                    <span class="number" id="seconds">00</span>
-                    <span class="label">SECONDS</span>
-                </div>
-
-            </div>
-
-            <div class="draw-time">
-                DRAW • OCTOBER 3, 2026 • 11:00 PM
-            </div>
-
-        </section>
-
     </div>
 
-    <script>
+    <section class="countdown-section">
 
-        // October 3, 2026 at 11:00 PM Eastern Daylight Time
-        const drawTime =
-            new Date("2026-10-03T23:00:00-04:00").getTime();
+        <div class="countdown">
 
-        function updateCountdown() {
+            <div class="time-box">
+                <span class="number" id="days">00</span>
+                <span class="label">DAYS</span>
+            </div>
 
-            const now = Date.now();
-            const distance = drawTime - now;
+            <div class="time-box">
+                <span class="number" id="hours">00</span>
+                <span class="label">HOURS</span>
+            </div>
 
-            if (distance <= 0) {
+            <div class="time-box">
+                <span class="number" id="minutes">00</span>
+                <span class="label">MINUTES</span>
+            </div>
 
-                document.getElementById("days").textContent = "00";
-                document.getElementById("hours").textContent = "00";
-                document.getElementById("minutes").textContent = "00";
-                document.getElementById("seconds").textContent = "00";
+            <div class="time-box">
+                <span class="number" id="seconds">00</span>
+                <span class="label">SECONDS</span>
+            </div>
 
-                return;
-            }
+        </div>
 
-            const days = Math.floor(
-                distance / (1000 * 60 * 60 * 24)
-            );
+        <div class="draw-time">
+            DRAW • OCTOBER 3, 2026 • 11:00 PM
+        </div>
 
-            const hours = Math.floor(
-                (distance % (1000 * 60 * 60 * 24)) /
-                (1000 * 60 * 60)
-            );
+    </section>
 
-            const minutes = Math.floor(
-                (distance % (1000 * 60 * 60)) /
-                (1000 * 60)
-            );
+</div>
 
-            const seconds = Math.floor(
-                (distance % (1000 * 60)) /
-                1000
-            );
+<script>
 
-            document.getElementById("days").textContent =
-                String(days).padStart(2, "0");
+    const drawTime =
+        new Date("2026-10-03T23:00:00-04:00").getTime();
 
-            document.getElementById("hours").textContent =
-                String(hours).padStart(2, "0");
+    function updateCountdown() {
 
-            document.getElementById("minutes").textContent =
-                String(minutes).padStart(2, "0");
+        const now = Date.now();
+        const distance = drawTime - now;
 
-            document.getElementById("seconds").textContent =
-                String(seconds).padStart(2, "0");
+        if (distance <= 0) {
+
+            document.getElementById("days").textContent = "00";
+            document.getElementById("hours").textContent = "00";
+            document.getElementById("minutes").textContent = "00";
+            document.getElementById("seconds").textContent = "00";
+
+            return;
         }
 
-        updateCountdown();
+        const days = Math.floor(
+            distance / (1000 * 60 * 60 * 24)
+        );
 
-        setInterval(updateCountdown, 1000);
+        const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
 
-    </script>
+        const minutes = Math.floor(
+            (distance % (1000 * 60 * 60)) /
+            (1000 * 60)
+        );
+
+        const seconds = Math.floor(
+            (distance % (1000 * 60)) /
+            1000
+        );
+
+        document.getElementById("days").textContent =
+            String(days).padStart(2, "0");
+
+        document.getElementById("hours").textContent =
+            String(hours).padStart(2, "0");
+
+        document.getElementById("minutes").textContent =
+            String(minutes).padStart(2, "0");
+
+        document.getElementById("seconds").textContent =
+            String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+
+    setInterval(updateCountdown, 1000);
+
+</script>
 
 </body>
 </html>
