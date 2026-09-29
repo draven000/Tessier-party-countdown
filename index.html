@@ -11,7 +11,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
             background: #000;
@@ -19,11 +20,16 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        body {
+            min-height: 100vh;
+        }
+
         .container {
             width: 100%;
             max-width: 1600px;
             margin: 0 auto;
             text-align: center;
+            background: #000;
         }
 
         .hero {
@@ -33,60 +39,85 @@
         }
 
         .countdown-section {
-            padding: 20px 20px 50px;
+            width: 100%;
+            padding: 0 3% 40px;
+            margin-top: -35px;
             background: #000;
+            position: relative;
         }
 
         .countdown {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 45px;
-            flex-wrap: wrap;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            align-items: start;
         }
 
         .time-box {
-            min-width: 130px;
+            width: 100%;
+            text-align: center;
         }
 
         .number {
             display: block;
             font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(3.5rem, 7vw, 7rem);
-            line-height: 1;
+            font-size: clamp(5rem, 10vw, 10rem);
+            font-weight: normal;
+            line-height: 0.95;
             color: #fff0c9;
+
             text-shadow:
-                0 0 10px rgba(255, 199, 112, 0.7),
-                0 0 25px rgba(255, 150, 40, 0.35);
+                0 0 8px rgba(255, 226, 170, 0.95),
+                0 0 20px rgba(255, 184, 84, 0.65),
+                0 0 40px rgba(255, 140, 20, 0.25);
         }
 
         .label {
             display: block;
-            margin-top: 12px;
-            font-size: clamp(0.7rem, 1.2vw, 1rem);
-            letter-spacing: 0.3em;
-            color: #d9bd8c;
+            margin-top: 18px;
+
+            font-size: clamp(0.8rem, 1.25vw, 1.25rem);
+            font-weight: 500;
+
+            letter-spacing: 0.4em;
+
+            color: #e4c58e;
         }
 
         .draw-time {
-            margin-top: 30px;
+            margin-top: 40px;
+
             font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(1rem, 2vw, 1.5rem);
+
+            font-size: clamp(1rem, 1.8vw, 1.7rem);
+
             letter-spacing: 0.18em;
-            color: #d9bd8c;
+
+            color: #e4c58e;
         }
 
-        @media (max-width: 600px) {
-            .countdown {
-                gap: 18px;
+        @media (max-width: 700px) {
+
+            .countdown-section {
+                margin-top: -10px;
+                padding-left: 10px;
+                padding-right: 10px;
             }
 
-            .time-box {
-                min-width: 70px;
+            .number {
+                font-size: clamp(3.2rem, 16vw, 6rem);
             }
 
             .label {
+                font-size: 0.65rem;
                 letter-spacing: 0.12em;
+                margin-top: 10px;
+            }
+
+            .draw-time {
+                margin-top: 30px;
+                font-size: 0.9rem;
+                line-height: 1.6;
             }
         }
     </style>
@@ -94,99 +125,106 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <img
-        src="party.jpeg"
-        alt="Tessier Real Estate Team Annual Client Party"
-        class="hero"
-    >
+        <img
+            src="party.jpeg"
+            alt="Tessier Real Estate Team Annual Client Party"
+            class="hero"
+        >
 
-    <section class="countdown-section">
+        <section class="countdown-section">
 
-        <div class="countdown">
+            <div class="countdown">
 
-            <div class="time-box">
-                <span class="number" id="days">00</span>
-                <span class="label">DAYS</span>
+                <div class="time-box">
+                    <span class="number" id="days">00</span>
+                    <span class="label">DAYS</span>
+                </div>
+
+                <div class="time-box">
+                    <span class="number" id="hours">00</span>
+                    <span class="label">HOURS</span>
+                </div>
+
+                <div class="time-box">
+                    <span class="number" id="minutes">00</span>
+                    <span class="label">MINUTES</span>
+                </div>
+
+                <div class="time-box">
+                    <span class="number" id="seconds">00</span>
+                    <span class="label">SECONDS</span>
+                </div>
+
             </div>
 
-            <div class="time-box">
-                <span class="number" id="hours">00</span>
-                <span class="label">HOURS</span>
+            <div class="draw-time">
+                DRAW • OCTOBER 3, 2026 • 11:00 PM
             </div>
 
-            <div class="time-box">
-                <span class="number" id="minutes">00</span>
-                <span class="label">MINUTES</span>
-            </div>
+        </section>
 
-            <div class="time-box">
-                <span class="number" id="seconds">00</span>
-                <span class="label">SECONDS</span>
-            </div>
+    </div>
 
-        </div>
+    <script>
 
-        <div class="draw-time">
-            DRAW • OCTOBER 3, 2026 • 11:00 PM
-        </div>
+        // October 3, 2026 at 11:00 PM Eastern Daylight Time
+        const drawTime =
+            new Date("2026-10-03T23:00:00-04:00").getTime();
 
-    </section>
+        function updateCountdown() {
 
-</div>
+            const now = Date.now();
+            const distance = drawTime - now;
 
-<script>
+            if (distance <= 0) {
 
-    // October 3, 2026 at 11:00 PM Eastern Daylight Time
-    const drawTime = new Date("2026-10-03T23:00:00-04:00").getTime();
+                document.getElementById("days").textContent = "00";
+                document.getElementById("hours").textContent = "00";
+                document.getElementById("minutes").textContent = "00";
+                document.getElementById("seconds").textContent = "00";
 
-    function updateCountdown() {
+                return;
+            }
 
-        const now = Date.now();
-        const distance = drawTime - now;
+            const days = Math.floor(
+                distance / (1000 * 60 * 60 * 24)
+            );
 
-        if (distance <= 0) {
-            document.getElementById("days").textContent = "00";
-            document.getElementById("hours").textContent = "00";
-            document.getElementById("minutes").textContent = "00";
-            document.getElementById("seconds").textContent = "00";
-            return;
+            const hours = Math.floor(
+                (distance % (1000 * 60 * 60 * 24)) /
+                (1000 * 60 * 60)
+            );
+
+            const minutes = Math.floor(
+                (distance % (1000 * 60 * 60)) /
+                (1000 * 60)
+            );
+
+            const seconds = Math.floor(
+                (distance % (1000 * 60)) /
+                1000
+            );
+
+            document.getElementById("days").textContent =
+                String(days).padStart(2, "0");
+
+            document.getElementById("hours").textContent =
+                String(hours).padStart(2, "0");
+
+            document.getElementById("minutes").textContent =
+                String(minutes).padStart(2, "0");
+
+            document.getElementById("seconds").textContent =
+                String(seconds).padStart(2, "0");
         }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) /
-            (1000 * 60 * 60)
-        );
+        updateCountdown();
 
-        const minutes = Math.floor(
-            (distance % (1000 * 60 * 60)) /
-            (1000 * 60)
-        );
+        setInterval(updateCountdown, 1000);
 
-        const seconds = Math.floor(
-            (distance % (1000 * 60)) /
-            1000
-        );
-
-        document.getElementById("days").textContent =
-            String(days).padStart(2, "0");
-
-        document.getElementById("hours").textContent =
-            String(hours).padStart(2, "0");
-
-        document.getElementById("minutes").textContent =
-            String(minutes).padStart(2, "0");
-
-        document.getElementById("seconds").textContent =
-            String(seconds).padStart(2, "0");
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-</script>
+    </script>
 
 </body>
 </html>
