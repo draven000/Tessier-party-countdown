@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tessier Real Estate Team | Countdown to the Prizes</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #f6dfb2;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .countdown-section {
+            padding: 20px 20px 50px;
+            background: #000;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 45px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            min-width: 130px;
+        }
+
+        .number {
+            display: block;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(3.5rem, 7vw, 7rem);
+            line-height: 1;
+            color: #fff0c9;
+            text-shadow:
+                0 0 10px rgba(255, 199, 112, 0.7),
+                0 0 25px rgba(255, 150, 40, 0.35);
+        }
+
+        .label {
+            display: block;
+            margin-top: 12px;
+            font-size: clamp(0.7rem, 1.2vw, 1rem);
+            letter-spacing: 0.3em;
+            color: #d9bd8c;
+        }
+
+        .draw-time {
+            margin-top: 30px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            letter-spacing: 0.18em;
+            color: #d9bd8c;
+        }
+
+        @media (max-width: 600px) {
+            .countdown {
+                gap: 18px;
+            }
+
+            .time-box {
+                min-width: 70px;
+            }
+
+            .label {
+                letter-spacing: 0.12em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <img
+        src="party.jpg"
+        alt="Tessier Real Estate Team Annual Client Party"
+        class="hero"
+    >
+
+    <section class="countdown-section">
+
+        <div class="countdown">
+
+            <div class="time-box">
+                <span class="number" id="days">00</span>
+                <span class="label">DAYS</span>
+            </div>
+
+            <div class="time-box">
+                <span class="number" id="hours">00</span>
+                <span class="label">HOURS</span>
+            </div>
+
+            <div class="time-box">
+                <span class="number" id="minutes">00</span>
+                <span class="label">MINUTES</span>
+            </div>
+
+            <div class="time-box">
+                <span class="number" id="seconds">00</span>
+                <span class="label">SECONDS</span>
+            </div>
+
+        </div>
+
+        <div class="draw-time">
+            DRAW • OCTOBER 3, 2026 • 11:00 PM
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+    // October 3, 2026 at 11:00 PM Eastern Daylight Time
+    const drawTime = new Date("2026-10-03T23:00:00-04:00").getTime();
+
+    function updateCountdown() {
+
+        const now = Date.now();
+        const distance = drawTime - now;
+
+        if (distance <= 0) {
+            document.getElementById("days").textContent = "00";
+            document.getElementById("hours").textContent = "00";
+            document.getElementById("minutes").textContent = "00";
+            document.getElementById("seconds").textContent = "00";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
+
+        const minutes = Math.floor(
+            (distance % (1000 * 60 * 60)) /
+            (1000 * 60)
+        );
+
+        const seconds = Math.floor(
+            (distance % (1000 * 60)) /
+            1000
+        );
+
+        document.getElementById("days").textContent =
+            String(days).padStart(2, "0");
+
+        document.getElementById("hours").textContent =
+            String(hours).padStart(2, "0");
+
+        document.getElementById("minutes").textContent =
+            String(minutes).padStart(2, "0");
+
+        document.getElementById("seconds").textContent =
+            String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+</script>
+
+</body>
+</html>
